@@ -42,7 +42,9 @@ ul {
   content: 'duration: ';
 }
 
+.duration.vShort { color: dodgerblue;}
 .duration.short { color: forestGreen;}
+.duration.medium { color: #f09700;}
 .duration.long  { color: indianRed;}
 
 /** Ajout d'une tache */

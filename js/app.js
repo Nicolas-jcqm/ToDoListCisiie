@@ -25,11 +25,17 @@ window.TaskManager = (() => {
     }
     
     display_duration() {
-      let item = $('<li>').addClass('duration').text(this.duration);
-      if (this.duration <= 10) {
+      let d = Math.trunc(this.duration / 60);
+      d += "h " +(this.duration % 60) + "min";
+      let item = $('<li>').addClass('duration').text(d);
+      if (this.duration <= 30) {
+        item.addClass('vShort');
+      } else if (this.duration >30 && this.duration <= 240) {
         item.addClass('short');
-      } else if (this.duration >= 20) {
-        item.addClass('long');
+      } else if (this.duration >240 && this.duration <= 720) {
+          item.addClass('medium');
+      } else if (this.duration > 720) {
+          item.addClass('long');
       }
       return item;
     }
@@ -81,15 +87,17 @@ window.TaskManager = (() => {
     }
   }
 
-    module.addTask=function addTask(nomTask, dureeTask){
+    module.addTask=function addTask(nomTask, dureeTaskH, dureeTaskM){
         if(nomTask==="") nomTask="Tache "+(module.tasks.length+1);
-        if(dureeTask==="") dureeTask="Sans durée";
-        module.tasks.push(new module.Task(nomTask, dureeTask, 'Sans Tag'));
+        let d = Number(dureeTaskH*60) + Number(dureeTaskM);
+        if((dureeTaskH==0) && (dureeTaskM==0)) d = "Sans Durée";
+        module.tasks.push(new module.Task(nomTask, d, 'Sans Tag'));
         let container = $('<ul>').prop('id', 'tasks');
         $('#taskmanager').append(container);
         let task = module.tasks[module.tasks.length-1]
         $(container).append(task.display_item());
         $('#menuAjoutTask').remove();
+        $('#btnValidateTask').remove();
     }
   
   return module;
@@ -108,8 +116,18 @@ $(() => {
   $(document).on("click","#btnAddTask", function(){
       if(!document.getElementById('menuAjoutTask')) {
           $("#btnAddTask").after("<div id = 'menuAjoutTask'><span class='inputsTask'> <p class = 'nomInput'>Tache : </p> <input id='inputNameTask' type='text'> </span>");
-          $("#inputNameTask").after("<span class='inputsTask'> <p class = 'nomInput'>Duree : </p> <input id='inputDurationTask' type='text'> </span>");
-          $("#inputDurationTask").after("<button id='btnValidateTask' type='text' onclick='TaskManager.addTask(document.getElementById(\"inputNameTask\").value,document.getElementById(\"inputDurationTask\").value)'>Validate</button></div>");
+          $("#inputNameTask").after("<span class='inputsTask'> <p class = 'nomInput'>Duree : </p> <select id='selectH'></select> h <select id='selectM'></select> min </span>");
+
+          $(function(){
+              for (let i=0;i<=23;i++){
+                  $('#selectH').append($('<option></option>').val(i).html(i))
+              }
+              for (let i=0;i<=59;i++){
+                  $('#selectM').append($('<option></option>').val(i).html(i))
+              }
+          });
+
+          $("#menuAjoutTask").after("<button id='btnValidateTask' type='text' onclick='TaskManager.addTask(document.getElementById(\"inputNameTask\").value,document.getElementById(\"selectH\").value,document.getElementById(\"selectM\").value)'>Validate</button></div>");
       }
   })
 
