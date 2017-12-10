@@ -91,3 +91,9 @@ $(() => {
 
   TaskManager.display_tasks('#taskmanager');
 });
+
+$(document).on("click","#btnAddTask", function(){
+    $("#btnAddTask").after("<input id=\"inputNameTask\" type=\"text\">");
+    $("#inputNameTask").after("<input id=\"inputDurationTask\" type=\"text\">");
+    $("#inputDurationTask").after("<button id=\"inputDurationTask\" type=\"text\">Validate</button>");
+})
