@@ -7,8 +7,6 @@ window.TaskManager = (() => {
     }
   }
 
-
-
   module.Task = class Task {
     constructor(name, duration , tags = null) {
       this.name = name;
@@ -144,15 +142,7 @@ window.TaskManager = (() => {
   return module;
 })();
 
-
-
 $(() => {
-  /**
-  TaskManager.tasks.push(new TaskManager.Task('tache 1', 10, 'test1'));
-  TaskManager.tasks.push(new TaskManager.Task('tache 2', 20, 'test2'));
-  TaskManager.tasks.push(new TaskManager.Task('tache 3', 15, 'test1'));
-   TaskManager.display_tasks('#taskmanager');
-   */
 
   $(document).on("click","#btnAddTask", function(){
       if(!document.getElementById('menuAjoutTask')) {
