@@ -12,4 +12,4 @@ ________________________________________
 
 ## Installation :
 * Après avoir cloné le projet, lancer le fichier installProject.sh
-* Puis lancer index.html
+* Puis accèder par le navigateur à http://localhost:8081
