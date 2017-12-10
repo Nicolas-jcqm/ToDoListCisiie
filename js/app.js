@@ -145,6 +145,10 @@ window.TaskManager = (() => {
 $(() => {
 
   $(document).on("click","#btnAddTask", function(){
+      // Chargement des tâches
+      $.get("http://localhost/td1/jsserver/public/products").done(function(data){
+          displayData(data);
+      });
       if(!document.getElementById('menuAjoutTask')) {
           $("#btnAddTask").after("<div id = 'menuAjoutTask'><span class='inputsTask'> <p class = 'nomInput'>Tache : </p> <input id='inputNameTask' type='text'> </span>");
           $("#inputNameTask").after("<span class='inputsTask'> <p class = 'nomInput'>Duree : </p> <select id='selectH'></select> h <select id='selectM'></select> min </span>");

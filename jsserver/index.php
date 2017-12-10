@@ -1,5 +1,5 @@
 <?php
-require_once '../vendor/autoload.php';// Autoload our dependencies with Composer
+require_once 'vendor/autoload.php';// Autoload our dependencies with Composer
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,16 +13,17 @@ $app->add(function(ServerRequestInterface $request, ResponseInterface $response,
 });
 
 //Chemins des fichiers JSON
-$task_path = realpath('..').'/Data/Task.json';
+$products_path = realpath('..').'/Data/products.json';
+$cart_path = realpath('..').'/cart.json';
 
 //On charge les produits existants
-$task = array();
-if(file_exists($task_path)){
-	$task = json_decode(file_get_contents($task_path), true);
+$products = array();
+if(file_exists($products_path)){
+	$products = json_decode(file_get_contents($products_path), true);
 }
 
-$app->get('/task', function() use($task){
-	echo json_encode($task);
+$app->get('/products', function() use($products){
+	echo json_encode($products);
 });
 
 $app->group('/cart', function() use($app, $products, $cart_path){
