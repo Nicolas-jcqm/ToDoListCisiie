@@ -13,17 +13,16 @@ $app->add(function(ServerRequestInterface $request, ResponseInterface $response,
 });
 
 //Chemins des fichiers JSON
-$products_path = realpath('..').'/products.json';
-$cart_path = realpath('..').'/cart.json';
+$task_path = realpath('..').'/Data/Task.json';
 
 //On charge les produits existants
-$products = array();
-if(file_exists($products_path)){
-	$products = json_decode(file_get_contents($products_path), true);
+$task = array();
+if(file_exists($task_path)){
+	$task = json_decode(file_get_contents($task_path), true);
 }
 
-$app->get('/products', function() use($products){
-	echo json_encode($products);
+$app->get('/task', function() use($task){
+	echo json_encode($task);
 });
 
 $app->group('/cart', function() use($app, $products, $cart_path){
