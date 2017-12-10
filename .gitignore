@@ -1,2 +1,5 @@
 .idea
 ~$Projet.docx
+
+jsserver/vendor
+jsserver/composer.lock

@@ -10,7 +10,7 @@ window.TaskManager = (() => {
 
 
   module.Task = class Task {
-    constructor(name = 'untitled', duration = 0, tags = null) {
+    constructor(name, duration , tags = null) {
       this.name = name;
       this.duration = duration;
       this.tags = [tags];
@@ -33,8 +33,13 @@ window.TaskManager = (() => {
     }
     
     display_duration() {
-      let d = Math.trunc(this.duration / 60);
-      d += "h " +(this.duration % 60) + "min";
+        let d ="";
+        if(this.duration === 0) {
+            d = "Sans Durée";
+        }else{
+            d = Math.trunc(this.duration / 60);
+            d += "h " + (this.duration % 60) + "min";
+        }
       let item = $('<li>').addClass('duration').text(d);
       if (this.duration <= 30) {
         item.addClass('vShort');
@@ -126,7 +131,7 @@ window.TaskManager = (() => {
     module.addTask=function addTask(nomTask, dureeTaskH, dureeTaskM){
         if(nomTask==="") nomTask="Tache "+(module.tasks.length+1);
         let d = Number(dureeTaskH*60) + Number(dureeTaskM);
-        if((dureeTaskH==0) && (dureeTaskM==0)) d = "Sans Durée";
+        if((dureeTaskH==0) && (dureeTaskM==0)) d = 0;
         module.tasks.push(new module.Task(nomTask, d, 'Sans Tag'));
         let container = $('<ul>').prop('id', 'tasks');
         $('#taskmanager').append(container);
