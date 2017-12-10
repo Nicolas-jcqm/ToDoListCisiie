@@ -44,3 +44,19 @@ ul {
 
 .duration.short { color: forestGreen;}
 .duration.long  { color: indianRed;}
+
+/** Ajout d'une tache */
+
+.nomInput{
+    display:inline;
+}
+
+.inputsTask{
+    margin:10px 0;
+    display:block;
+}
+
+#btnValidateTask{
+    display: block;
+    margin-top:10px;
+}
