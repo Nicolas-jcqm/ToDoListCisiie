@@ -67,6 +67,7 @@ window.TaskManager = (() => {
       
       return container;
     }
+
   }
   
   module.tasks = [];
@@ -79,21 +80,32 @@ window.TaskManager = (() => {
       $(container).append(task.display_item());
     }
   }
+
+    module.addTask=function addTask(nomTask="Nom Inconnue", dureeTask="Durée Inconnue"){
+        module.tasks.push(new module.Task(nomTask, dureeTask, 'test1'));
+        let container = $('<ul>').prop('id', 'tasks');
+        $('#taskmanager').append(container);
+        let task = module.tasks[module.tasks.length-1]
+        $(container).append(task.display_item());
+    }
   
   return module;
 })();
 
 
+
 $(() => {
+  /**
   TaskManager.tasks.push(new TaskManager.Task('tache 1', 10, 'test1'));
   TaskManager.tasks.push(new TaskManager.Task('tache 2', 20, 'test2'));
   TaskManager.tasks.push(new TaskManager.Task('tache 3', 15, 'test1'));
+   TaskManager.display_tasks('#taskmanager');
+   */
 
-  TaskManager.display_tasks('#taskmanager');
+  $(document).on("click","#btnAddTask", function(){
+      $("#btnAddTask").after("<div class='inputsTask'> <p class = 'nomInput'>Tache : </p> <input id='inputNameTask' type='text'> </div>");
+      $("#inputNameTask").after("<div class='inputsTask'> <p class = 'nomInput'>Duree : </p> <input id='inputDurationTask' type='text'> </div>");
+      $("#inputDurationTask").after("<button id='btnValidateTask' type='text' onclick='TaskManager.addTask(document.getElementById(\"inputNameTask\").value,document.getElementById(\"inputDurationTask\").value)'>Validate</button>");
+    })
+
 });
-
-$(document).on("click","#btnAddTask", function(){
-    $("#btnAddTask").after("<input id=\"inputNameTask\" type=\"text\">");
-    $("#inputNameTask").after("<input id=\"inputDurationTask\" type=\"text\">");
-    $("#inputDurationTask").after("<button id=\"inputDurationTask\" type=\"text\">Validate</button>");
-})
