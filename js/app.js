@@ -1,11 +1,19 @@
 window.TaskManager = (() => {
   let module = {};
-   
+  
+  module.Tag = class Tag{
+    constructor(label=""){
+      this.label=label;
+    }
+  }
+
+
+
   module.Task = class Task {
     constructor(name = 'untitled', duration = 0, tags = null) {
       this.name = name;
       this.duration = duration;
-      this.tags = tags;
+      this.tags = [tags];
     }
   
     display_item() {
@@ -45,28 +53,56 @@ window.TaskManager = (() => {
       let field = $('<input>').prop('type', 'text');
       let button = $('<input>').prop('type', 'submit');
       let editor = $('<form>').append(field).append(button);
-      
+      let add = $('<button class="addTag">Ajouter un tag</button>');
+
       let task = this;
       
       let in_edit = false;
       
       container.click((event) => {
-        event.stopPropagation();
+        //event.stopPropagation();
         event.preventDefault();
         
         let target = $(event.target);
         
         if (target.is('li') && !in_edit) {
           container.empty();
-          container.append(editor);
+          for(var i=0; i<task.tags.length; i++){
+            container.append(task.tags[i]);
+            container.append($('<button class="delTag" id="'+i+'">-</button>'));
+            container.append("</br>");  
+          }
+          container.prepend("<br>");
+          container.prepend(add);
           in_edit = true;
         }
         
         if (target.is('input') && target.prop('type') === 'submit') {
-          task.tags = field.val();
+          task.tags.push(field.val());
+          field.empty();
           container.empty();
-          container.text(task.tags);
+          
+          for(var i=0; i<task.tags.length; i++){
+            container.append(task.tags[i]);
+            container.append("</br>");  
+          }
           in_edit = false;
+        }
+        if(target.is(".addTag")){
+          container.append(editor);
+
+        }
+
+        if(target.is(".delTag")){
+          task.tags.splice(target[0].id,1);
+          container.empty();
+          if(task.tags.length==0){
+            container.prepend(add);
+          }
+          for(var i=0; i<task.tags.length; i++){
+            container.append(task.tags[i]);
+            container.append("</br>");  
+          }
         }
         
       });
